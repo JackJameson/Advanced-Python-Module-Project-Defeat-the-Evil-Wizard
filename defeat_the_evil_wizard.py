@@ -55,8 +55,8 @@ class Warrior(Character):
         
     def power_strike(self, opponent):
         print(f"{self.name} uses Power Strike!")
-        opponent.health -= self.attack_power * 1.5
-        print(f"{self.name} attacks {opponent.name} for {self.attack_power * 1.5} damage!")
+        opponent.health -= int(self.attack_power * 1.5 // 1)
+        print(f"{self.name} attacks {opponent.name} for {int(self.attack_power * 1.5 // 1)} damage!")
         
     def shield_block(self):
         print(f"{self.name} uses Shield Block! They will block the next attack.")
@@ -119,8 +119,8 @@ class Paladin(Character):
         
     def holy_strike(self, opponent):
         print(f"{self.name} uses Holy Strike!")
-        opponent.health -= self.attack_power * 1.5
-        print(f"{self.name} attacks {opponent.name} for {self.attack_power * 1.5} damage!")
+        opponent.health -= int(self.attack_power * 1.5 //1)
+        print(f"{self.name} attacks {opponent.name} for {int(self.attack_power * 1.5 //1)} damage!")
         
     def divine_shield(self):
         print(f"{self.name} uses Divine Shield! They will block the next attack.")
@@ -212,10 +212,10 @@ def battle(player, wizard):
         if choice == '1':
             player.attack(wizard)
         elif choice == '2':
-            option = int(input(f"Choose special ability:\n1. {player.spcl_ability_names[0]}\n2. {player.spcl_ability_names[1]}\n"))
+            option = int(input(f"--- {player.name}'s special abilities are ---\n1. {player.spcl_ability_names[0]}\n2. {player.spcl_ability_names[1]}\nChoose special ability: "))
             player.special_ability(wizard, option)
         elif choice == '3':
-            pass  # Implement heal method
+            player.heal()
         elif choice == '4':
             player.display_stats()
         else:
