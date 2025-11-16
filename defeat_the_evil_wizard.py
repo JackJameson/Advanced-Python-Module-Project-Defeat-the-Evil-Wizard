@@ -1,8 +1,9 @@
 # Base Character class
 class Character:
-    def __init__(self, name, health, attack_power, spcl_ability_names=None, status_effects=None):
+    def __init__(self, name, health, attack_power, heal_power=15, spcl_ability_names=None, status_effects=None):
         self.name = name
         self.health = health
+        self.heal_power = heal_power
         self.attack_power = attack_power
         self.max_health = health  
         
@@ -27,6 +28,15 @@ class Character:
     def special_ability(self, opponent, option):
         pass  # To be overridden by subclasses
     
+    def heal(self):
+        heal_amount = self.heal_power
+        if self.health == self.max_health:
+            print(f"{self.name} is already at full health!")
+        else:
+            self.health += heal_amount
+            if self.health > self.max_health:
+                self.health = self.max_health
+            print(f"{self.name} heals for {heal_amount} health! Current health: {self.health}")
 
     def display_stats(self):
         print(f"{self.name}'s Stats - Health: {self.health}/{self.max_health}, Attack Power: {self.attack_power}")
@@ -34,7 +44,7 @@ class Character:
 # Warrior class (inherits from Character)
 class Warrior(Character):
     def __init__(self, name):
-        super().__init__(name, health=140, attack_power=25)
+        super().__init__(name, health=140, attack_power=25, heal_power=20, spcl_ability_names=["Power Strike", "Shield Block"])
         
     def power_strike(self, opponent):
         print(f"{self.name} uses Power Strike!")
@@ -56,7 +66,7 @@ class Warrior(Character):
 # Mage class (inherits from Character)
 class Mage(Character):
     def __init__(self, name):
-        super().__init__(name, health=100, attack_power=35)
+        super().__init__(name, health=100, attack_power=35, spcl_ability_names=["Fireball", "Teleport"])
         
     def fireball(self, opponent):
         print(f"{self.name} casts Fireball!")
@@ -77,7 +87,7 @@ class Mage(Character):
         
 class Archer(Character):
     def __init__(self, name):
-        super().__init__(name, health=120, attack_power=20, spcl_ability_names=["Quick Shot", "Evade"])
+        super().__init__(name, health=120, attack_power=20, heal_power=20, spcl_ability_names=["Quick Shot", "Evade"])
          
     def quick_shot(self, opponent):
         print(f"{self.name} uses Quick Shot!")
@@ -98,7 +108,7 @@ class Archer(Character):
         
 class Paladin(Character):
     def __init__(self, name):
-        super().__init__(name, health=160, attack_power=15)
+        super().__init__(name, health=160, attack_power=15, heal_power=25, spcl_ability_names=["Holy Strike", "Divine Shield"])
         
     def holy_strike(self, opponent):
         print(f"{self.name} uses Holy Strike!")
