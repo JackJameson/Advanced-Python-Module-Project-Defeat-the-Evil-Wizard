@@ -26,6 +26,7 @@ class Character:
             
     def special_ability(self, opponent, option):
         pass  # To be overridden by subclasses
+    
 
     def display_stats(self):
         print(f"{self.name}'s Stats - Health: {self.health}/{self.max_health}, Attack Power: {self.attack_power}")
@@ -43,11 +44,36 @@ class Warrior(Character):
     def shield_block(self):
         print(f"{self.name} uses Shield Block! They will block the next attack.")
         self.status_effects.append("block")
+        
+    def special_ability(self, opponent, option):
+        if option == 1:
+            self.power_strike(opponent)
+        elif option == 2:
+            self.shield_block()
+        else:
+            print("Invalid special ability choice.")
 
 # Mage class (inherits from Character)
 class Mage(Character):
     def __init__(self, name):
         super().__init__(name, health=100, attack_power=35)
+        
+    def fireball(self, opponent):
+        print(f"{self.name} casts Fireball!")
+        opponent.health -= self.attack_power * 2
+        print(f"{self.name} attacks {opponent.name} for {self.attack_power * 2} damage!")
+        
+    def teleport(self):
+        print(f"{self.name} uses Teleport! They avoid the next attack.")
+        self.status_effects.append("evade")
+        
+    def special_ability(self, opponent, option):
+        if option == 1:
+            self.fireball(opponent)
+        elif option == 2:
+            self.teleport()
+        else:
+            print("Invalid special ability choice.")
         
 class Archer(Character):
     def __init__(self, name):
@@ -62,7 +88,6 @@ class Archer(Character):
         print(f"{self.name} uses Evade! They will evade the next attack.")
         self.status_effects.append("evade")
         
-    # Each character must have two special abilities, such as: Archer: "Quick Shot" (double arrow attack) and "Evade" (evades the next attack )
     def special_ability(self, opponent, option):
         if option == 1:
             self.quick_shot(opponent)
@@ -70,15 +95,28 @@ class Archer(Character):
             self.evade()
         else:
             print("Invalid special ability choice.")
-    
-    
         
 class Paladin(Character):
     def __init__(self, name):
         super().__init__(name, health=160, attack_power=15)
         
-
-
+    def holy_strike(self, opponent):
+        print(f"{self.name} uses Holy Strike!")
+        opponent.health -= self.attack_power * 1.5
+        print(f"{self.name} attacks {opponent.name} for {self.attack_power * 1.5} damage!")
+        
+    def divine_shield(self):
+        print(f"{self.name} uses Divine Shield! They will block the next attack.")
+        self.status_effects.append("block")
+        
+    def special_ability(self, opponent, option):
+        if option == 1:
+            self.holy_strike(opponent)
+        elif option == 2:
+            self.divine_shield()
+        else:
+            print("Invalid special ability choice.")
+        
 # EvilWizard class (inherits from Character)
 class EvilWizard(Character):
     def __init__(self, name):
