@@ -1,3 +1,4 @@
+import random
 # Base Character class
 class Character:
     def __init__(self, name, health, attack_power, heal_power=15, spcl_ability_names=None, status_effects=None):
@@ -20,8 +21,17 @@ class Character:
             self.status_effects = status_effects
 
     def attack(self, opponent):
-        opponent.health -= self.attack_power
-        print(f"{self.name} attacks {opponent.name} for {self.attack_power} damage!")
+        min_damage = int(self.attack_power * 0.8)
+        max_damage = int(self.attack_power * 1.2)
+            
+        if min_damage < 1:
+            min_damage = 1
+
+        damage = random.randint(min_damage, max_damage)
+        
+        opponent.health -= damage
+        print(f"{self.name} attacks {opponent.name} for {damage} damage!")
+        
         if opponent.health <= 0:
             print(f"{opponent.name} has been defeated!")
             
