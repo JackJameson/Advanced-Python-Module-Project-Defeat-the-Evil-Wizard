@@ -1,11 +1,22 @@
 # Base Character class
 class Character:
-    def __init__(self, name, health, attack_power, spcl_ability_names=[]):
+    def __init__(self, name, health, attack_power, spcl_ability_names=None, status_effects=None):
         self.name = name
         self.health = health
         self.attack_power = attack_power
-        self.spcl_ability_names = spcl_ability_names
         self.max_health = health  
+        
+        # If no list is provided, create a new empty one
+        if spcl_ability_names is None:
+            self.spcl_ability_names = []
+        else:
+            self.spcl_ability_names = spcl_ability_names
+            
+        # Do the same for status_effects
+        if status_effects is None:
+            self.status_effects = []
+        else:
+            self.status_effects = status_effects
 
     def attack(self, opponent):
         opponent.health -= self.attack_power
@@ -23,6 +34,15 @@ class Character:
 class Warrior(Character):
     def __init__(self, name):
         super().__init__(name, health=140, attack_power=25)
+        
+    def power_strike(self, opponent):
+        print(f"{self.name} uses Power Strike!")
+        opponent.health -= self.attack_power * 1.5
+        print(f"{self.name} attacks {opponent.name} for {self.attack_power * 1.5} damage!")
+        
+    def shield_block(self):
+        print(f"{self.name} uses Shield Block! They will block the next attack.")
+        self.status_effects.append("block")
 
 # Mage class (inherits from Character)
 class Mage(Character):
@@ -32,21 +52,26 @@ class Mage(Character):
 class Archer(Character):
     def __init__(self, name):
         super().__init__(name, health=120, attack_power=20, spcl_ability_names=["Quick Shot", "Evade"])
+         
+    def quick_shot(self, opponent):
+        print(f"{self.name} uses Quick Shot!")
+        opponent.health -= self.attack_power * 2
+        print(f"{self.name} attacks {opponent.name} for {self.attack_power * 2} damage!")
+        
+    def evade(self):
+        print(f"{self.name} uses Evade! They will evade the next attack.")
+        self.status_effects.append("evade")
         
     # Each character must have two special abilities, such as: Archer: "Quick Shot" (double arrow attack) and "Evade" (evades the next attack )
     def special_ability(self, opponent, option):
         if option == 1:
-            print("Invalid special ability choice.")
-            print(f"{self.name} uses Quick Shot!")
-            opponent.health -= self.attack_power * 2
-            print(f"{self.name} attacks {opponent.name} for {self.attack_power * 2} damage!")
+            self.quick_shot(opponent)
         elif option == 2:
-            #implement evade logic
-            print(f"{self.name} uses Evade! They will evade the next attack.")
-            # This is a placeholder; actual evade logic would need to be implemented in the battle loop
+            self.evade()
         else:
             print("Invalid special ability choice.")
-        
+    
+    
         
 class Paladin(Character):
     def __init__(self, name):
@@ -58,10 +83,44 @@ class Paladin(Character):
 class EvilWizard(Character):
     def __init__(self, name):
         super().__init__(name, health=150, attack_power=15,)
+        
+    def attack(self, opponent):
+        print(f"{self.name} is attempting to attack {opponent.name}...")
+        if self.check_evade(opponent):
+            return
+        if self.check_block(opponent):
+            return
+        opponent.health -= self.attack_power
+        print(f"{self.name} attacks {opponent.name} for {self.attack_power} damage!")
+        if opponent.health <= 0:
+            print(f"{opponent.name} has been defeated!")
+            
+    def check_evade(self, opponent):
+        if "evade" in opponent.status_effects:
+            print(f"{opponent.name} evades the attack!")
+            opponent.status_effects.remove("evade")
+            return True
+        return False        
+    
+    def check_block(self, opponent):
+        if "block" in opponent.status_effects:
+            print(f"{opponent.name} blocks the attack!")
+            opponent.status_effects.remove("block")
+            return True
+        return False
 
     def regenerate(self):
-        self.health += 5
-        print(f"{self.name} regenerates 5 health! Current health: {self.health}")
+        if self.health == self.max_health:
+            print(f"{self.name} is at full health!")
+        elif self.health < self.max_health:
+            if self.health + 5 > self.max_health:
+                self.health = self.max_health
+                print(f"{self.name} regenerates to max health! Current health: {self.health}")
+            else:
+                self.health += 5
+                print(f"{self.name} regenerates 5 health! Current health: {self.health}")
+        else:
+            print(f"{self.name} cannot regenerate health beyond max health.")
 
 def create_character():
     print("Choose your character class:")
@@ -98,7 +157,8 @@ def battle(player, wizard):
         if choice == '1':
             player.attack(wizard)
         elif choice == '2':
-            input(f"Choose special ability:\n1. {player.spcl_ability_names[0]}\n2. {player.spcl_ability_names[1]}\n")
+            option = int(input(f"Choose special ability:\n1. {player.spcl_ability_names[0]}\n2. {player.spcl_ability_names[1]}\n"))
+            player.special_ability(wizard, option)
         elif choice == '3':
             pass  # Implement heal method
         elif choice == '4':
