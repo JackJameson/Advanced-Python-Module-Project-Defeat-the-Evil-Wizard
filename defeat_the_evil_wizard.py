@@ -1,9 +1,10 @@
 # Base Character class
 class Character:
-    def __init__(self, name, health, attack_power):
+    def __init__(self, name, health, attack_power, spcl_ability_names=[]):
         self.name = name
         self.health = health
         self.attack_power = attack_power
+        self.spcl_ability_names = spcl_ability_names
         self.max_health = health  
 
     def attack(self, opponent):
@@ -11,6 +12,9 @@ class Character:
         print(f"{self.name} attacks {opponent.name} for {self.attack_power} damage!")
         if opponent.health <= 0:
             print(f"{opponent.name} has been defeated!")
+            
+    def special_ability(self, opponent, option):
+        pass  # To be overridden by subclasses
 
     def display_stats(self):
         print(f"{self.name}'s Stats - Health: {self.health}/{self.max_health}, Attack Power: {self.attack_power}")
@@ -27,9 +31,22 @@ class Mage(Character):
         
 class Archer(Character):
     def __init__(self, name):
-        super().__init__(name, health=120, attack_power=20)
+        super().__init__(name, health=120, attack_power=20, spcl_ability_names=["Quick Shot", "Evade"])
         
-    
+    # Each character must have two special abilities, such as: Archer: "Quick Shot" (double arrow attack) and "Evade" (evades the next attack )
+    def special_ability(self, opponent, option):
+        if option == 1:
+            print("Invalid special ability choice.")
+            print(f"{self.name} uses Quick Shot!")
+            opponent.health -= self.attack_power * 2
+            print(f"{self.name} attacks {opponent.name} for {self.attack_power * 2} damage!")
+        elif option == 2:
+            #implement evade logic
+            print(f"{self.name} uses Evade! They will evade the next attack.")
+            # This is a placeholder; actual evade logic would need to be implemented in the battle loop
+        else:
+            print("Invalid special ability choice.")
+        
         
 class Paladin(Character):
     def __init__(self, name):
@@ -40,16 +57,11 @@ class Paladin(Character):
 # EvilWizard class (inherits from Character)
 class EvilWizard(Character):
     def __init__(self, name):
-        super().__init__(name, health=150, attack_power=15)
+        super().__init__(name, health=150, attack_power=15,)
 
     def regenerate(self):
         self.health += 5
         print(f"{self.name} regenerates 5 health! Current health: {self.health}")
-
-# Create Archer class
-
-# Create Paladin class 
-
 
 def create_character():
     print("Choose your character class:")
@@ -66,9 +78,9 @@ def create_character():
     elif class_choice == '2':
         return Mage(name)
     elif class_choice == '3':
-        pass  # Implement Archer class
+        return Archer(name)
     elif class_choice == '4':
-        pass  # Implement Paladin class
+        return Paladin(name)
     else:
         print("Invalid choice. Defaulting to Warrior.")
         return Warrior(name)
@@ -86,7 +98,7 @@ def battle(player, wizard):
         if choice == '1':
             player.attack(wizard)
         elif choice == '2':
-            pass  # Implement special abilities
+            input(f"Choose special ability:\n1. {player.spcl_ability_names[0]}\n2. {player.spcl_ability_names[1]}\n")
         elif choice == '3':
             pass  # Implement heal method
         elif choice == '4':
