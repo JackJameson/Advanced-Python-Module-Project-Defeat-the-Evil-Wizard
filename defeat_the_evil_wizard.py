@@ -24,6 +24,18 @@ class Warrior(Character):
 class Mage(Character):
     def __init__(self, name):
         super().__init__(name, health=100, attack_power=35)
+        
+class Archer(Character):
+    def __init__(self, name):
+        super().__init__(name, health=120, attack_power=20)
+        
+    
+        
+class Paladin(Character):
+    def __init__(self, name):
+        super().__init__(name, health=160, attack_power=15)
+        
+
 
 # EvilWizard class (inherits from Character)
 class EvilWizard(Character):

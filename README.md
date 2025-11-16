@@ -1,0 +1,1 @@
+I gave the the archer less health then the paladin, because paladins are tanky.
