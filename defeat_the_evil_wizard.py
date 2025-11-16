@@ -31,9 +31,6 @@ class Character:
         
         opponent.health -= damage
         print(f"{self.name} attacks {opponent.name} for {damage} damage!")
-        
-        if opponent.health <= 0:
-            print(f"{opponent.name} has been defeated!")
             
     def special_ability(self, opponent, option):
         pass  # To be overridden by subclasses
@@ -229,7 +226,6 @@ def battle(player, wizard):
             wizard.attack(player)
 
         if player.health <= 0:
-            print(f"{player.name} has been defeated!")
             break
 
     if wizard.health <= 0:
