@@ -55,17 +55,18 @@ class Warrior(Character):
         
     def power_strike(self, opponent):
         print(f"{self.name} uses Power Strike!")
-        opponent.health -= int(self.attack_power * 1.5 // 1)
-        print(f"{self.name} attacks {opponent.name} for {int(self.attack_power * 1.5 // 1)} damage!")
+        damage = int(self.attack_power * 1.5)
+        opponent.health -= damage
+        print(f"{self.name} attacks {opponent.name} for {damage} damage!")
         
     def shield_block(self):
         print(f"{self.name} uses Shield Block! They will block the next attack.")
         self.status_effects.append("block")
         
     def special_ability(self, opponent, option):
-        if option == 1:
+        if option == "1":
             self.power_strike(opponent)
-        elif option == 2:
+        elif option == "2":
             self.shield_block()
         else:
             print("Invalid special ability choice.")
@@ -77,17 +78,18 @@ class Mage(Character):
         
     def fireball(self, opponent):
         print(f"{self.name} casts Fireball!")
-        opponent.health -= self.attack_power * 2
-        print(f"{self.name} attacks {opponent.name} for {self.attack_power * 2} damage!")
+        damage = self.attack_power * 2
+        opponent.health -= damage
+        print(f"{self.name} attacks {opponent.name} for {damage} damage!")
         
     def teleport(self):
         print(f"{self.name} uses Teleport! They avoid the next attack.")
         self.status_effects.append("evade")
         
     def special_ability(self, opponent, option):
-        if option == 1:
+        if option == "1":
             self.fireball(opponent)
-        elif option == 2:
+        elif option == "2":
             self.teleport()
         else:
             print("Invalid special ability choice.")
@@ -98,17 +100,18 @@ class Archer(Character):
          
     def quick_shot(self, opponent):
         print(f"{self.name} uses Quick Shot!")
-        opponent.health -= self.attack_power * 2
-        print(f"{self.name} attacks {opponent.name} for {self.attack_power * 2} damage!")
+        damage = self.attack_power * 2
+        opponent.health -= damage
+        print(f"{self.name} attacks {opponent.name} for {damage} damage!")
         
     def evade(self):
         print(f"{self.name} uses Evade! They will evade the next attack.")
         self.status_effects.append("evade")
         
     def special_ability(self, opponent, option):
-        if option == 1:
+        if option == "1":
             self.quick_shot(opponent)
-        elif option == 2:
+        elif option == "2":
             self.evade()
         else:
             print("Invalid special ability choice.")
@@ -119,17 +122,18 @@ class Paladin(Character):
         
     def holy_strike(self, opponent):
         print(f"{self.name} uses Holy Strike!")
-        opponent.health -= int(self.attack_power * 1.5 //1)
-        print(f"{self.name} attacks {opponent.name} for {int(self.attack_power * 1.5 //1)} damage!")
+        damage = int(self.attack_power * 1.5)
+        opponent.health -= damage
+        print(f"{self.name} attacks {opponent.name} for {damage} damage!")
         
     def divine_shield(self):
         print(f"{self.name} uses Divine Shield! They will block the next attack.")
         self.status_effects.append("block")
         
     def special_ability(self, opponent, option):
-        if option == 1:
+        if option == "1":
             self.holy_strike(opponent)
-        elif option == 2:
+        elif option == "2":
             self.divine_shield()
         else:
             print("Invalid special ability choice.")
@@ -212,7 +216,7 @@ def battle(player, wizard):
         if choice == '1':
             player.attack(wizard)
         elif choice == '2':
-            option = int(input(f"--- {player.name}'s special abilities are ---\n1. {player.spcl_ability_names[0]}\n2. {player.spcl_ability_names[1]}\nChoose special ability: "))
+            option = (input(f"--- {player.name}'s special abilities are ---\n1. {player.spcl_ability_names[0]}\n2. {player.spcl_ability_names[1]}\nChoose special ability: "))
             player.special_ability(wizard, option)
         elif choice == '3':
             player.heal()
