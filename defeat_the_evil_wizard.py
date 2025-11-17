@@ -43,7 +43,9 @@ class Character:
             self.health += heal_amount
             if self.health > self.max_health:
                 self.health = self.max_health
-            print(f"{self.name} heals for {heal_amount} health! Current health: {self.health}")
+                print(f"{self.name} heals to max health! Current health: {self.health}")
+            else:    
+                print(f"{self.name} heals for {heal_amount} health! Current health: {self.health}")
 
     def display_stats(self):
         print(f"{self.name}'s Stats - Health: {self.health}/{self.max_health}, Attack Power: {self.attack_power}")
