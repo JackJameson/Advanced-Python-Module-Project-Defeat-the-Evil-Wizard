@@ -148,7 +148,7 @@ class EvilWizard(Character):
         opponent.health -= self.attack_power
         print(f"{self.name} attacks {opponent.name} for {self.attack_power} damage!")
         if opponent.health <= 0:
-            print(f"{opponent.name} has been defeated!")
+            print(f"{opponent.name} has been defeated by the evil wizard {self.name}!")
             
     def check_evade(self, opponent):
         if "evade" in opponent.status_effects:
