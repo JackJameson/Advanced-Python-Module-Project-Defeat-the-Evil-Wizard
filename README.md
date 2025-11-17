@@ -7,3 +7,5 @@ I added a function for healing. I gave the paladin class the highest healing pow
 I modified the attack function to randomize the players damage. I grab 80% of the player's base damage and set it to the minimun and I grab 120% of the players damage and set it as the maximum. I then use the randint function and pass in the minimum and maximum as the range so that a player will randomly deal 80-120% of their base damage to the wizard with a regular attack.
 
 The player is able to choose from actions such as attacking, healing, using abilities, or viewing stats. The evil wizard attacks the player and regenerates each turn. I added logic to make sure the wizard never heals past their max health. The wizard will not damage the player if they see that they are in a block or evade status and will make sure that status is removed at the end of the turn. The user will get a victory message if they defeat the wizard and a defeat message if the wizard wins.
+
+Sorry the video presentation has a Watermark. I used 3rd party software to edit the Zoom recorded clips together.
